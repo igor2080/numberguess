@@ -4,40 +4,86 @@ using System.Text;
 
 namespace NumberGuess
 {
-    public enum GuessResult
-    {
-        None,
-        Lower,
-        Correct,
-        Higher,        
-    }
     public class Game
     {
-        private GuessNumber _guessNumber = new GuessNumber();
+        private const int MinNumber = 0, MaxNumber = 100;
+        const string RestartKey = "1";
+        private readonly GuessNumber _guessNumber = new GuessNumber();
 
-        public GuessResult MakeGuess(int userNumber)
+        public Game()
         {
-            GuessResult result;
-            try
+
+        }
+        public Game(GuessNumber number)
+        {
+            _guessNumber = number;
+        }
+
+        public int StartNewGame()
+        {
+            return _guessNumber.GenerateNewNumber();
+        }
+
+        public void Play()
+        {
+            do
             {
-                result = _guessNumber.GetGuessResult(userNumber);
+                StartNewGame();
+                GuessResult currentResult = GuessResult.None;
+                while (currentResult != GuessResult.Correct)
+                {
+                    Console.WriteLine($"Please enter a number between {MinNumber} and {MaxNumber}: ");
+                    currentResult = MakeGuess();
+                    PrintResponse(currentResult);
+                }
             }
-            catch(ArgumentOutOfRangeException exception)
+            while (PromptPlayAgain());
+        }
+
+        public GuessResult MakeGuess()
+        {
+            int userNumber = GetUserInput();
+
+            if (_guessNumber.IsGameStarted)
             {
-                Console.WriteLine(exception.Message);
-                result = GuessResult.None;
+                return _guessNumber.GetGuessResult(userNumber);
             }
-            catch (InvalidOperationException exception)
+
+            throw new InvalidOperationException("A game has not been started.");
+        }
+
+        private int GetUserInput()
+        {
+            int result;
+            while (!int.TryParse(Console.ReadLine(), out result) || result < MinNumber || result > MaxNumber)
             {
-                Console.WriteLine(exception.Message);
-                result = GuessResult.None;
+                Console.WriteLine($"Please enter a valid number between {MinNumber} and {MaxNumber} or press ctrl+c to exit: ");
             }
             return result;
         }
 
-        public void StartNewGame()
+        private bool PromptPlayAgain()
         {
-            _guessNumber.GenerateNewNumber();
+            Console.WriteLine($"Would you like to play again? type {RestartKey} to make a new game or press ctrl+c to exit:");
+            return Console.ReadLine() == RestartKey;
+        }
+
+        private void PrintResponse(GuessResult currentResult)
+        {
+            switch (currentResult)
+            {
+                case GuessResult.Higher:
+                    Console.WriteLine("Your guess was too low.");
+                    break;
+                case GuessResult.Lower:
+                    Console.WriteLine("Your guess was too high.");
+                    break;
+                case GuessResult.Correct:
+                    Console.WriteLine("You guessed correctly!");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

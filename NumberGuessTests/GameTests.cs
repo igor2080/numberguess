@@ -2,6 +2,7 @@
 using NumberGuess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace NumberGuessTests
@@ -15,25 +16,28 @@ namespace NumberGuessTests
         public void MakeGuess_Valid_Guess()
         {
             _guessGame.StartNewGame();
-            int input = 15;
-            GuessResult actualResult = _guessGame.MakeGuess(input);
+            Console.SetIn(new StringReader("15"));
+            GuessResult actualResult = _guessGame.MakeGuess();
             Assert.IsFalse(actualResult == GuessResult.None);
         }
 
         [TestMethod]
-        public void MakeGuess_Invalid_Guess()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void MakeGuess_Game_Not_Started_Exception()
         {
-            _guessGame.StartNewGame();
-            int input = 105;
-            GuessResult actualResult = _guessGame.MakeGuess(input);
-            GuessResult expectedResult = GuessResult.None;
-            Assert.AreEqual(expectedResult, actualResult);
+            Console.SetIn(new StringReader("1"));
+            _guessGame.MakeGuess();
         }
 
         [TestMethod]
-        public void MakeGuess_Game_Not_Started_No_Result()
+        public void StartNewGame_Game_Started()
         {
-            Assert.IsTrue(_guessGame.MakeGuess(1) == GuessResult.None);
+            GuessNumber input = new GuessNumber();
+            input.GenerateNewNumber();
+            Game testGame = new Game(input);
+            Console.SetIn(new StringReader("1"));
+            testGame.MakeGuess();
         }
+
     }
 }

@@ -6,33 +6,33 @@ namespace NumberGuess
 {
     public class GuessNumber
     {
-        private int Number = -1;
+        private const int MinNumber = 0, MaxNumber = 100, InvalidNumber = -1;
+        private int _number = InvalidNumber;
+        public bool IsGameStarted { get { return _number != InvalidNumber; } }
 
-        public void GenerateNewNumber()
+        public int GenerateNewNumber()
         {
-            Number = new Random().Next(0, 101);
+            return _number = new Random().Next(MinNumber, MaxNumber + 1);
         }
 
         public GuessResult GetGuessResult(int userGuessNumber)
         {
-            if (Number == -1)
+            if (_number == InvalidNumber)
                 throw new InvalidOperationException("A game has not been started.");
-            if (userGuessNumber < 0 || userGuessNumber > 100)
-                throw new ArgumentOutOfRangeException("A number has to be between 0 and 100");
+            if (userGuessNumber < MinNumber || userGuessNumber > MaxNumber)
+                throw new ArgumentOutOfRangeException($"A number has to be between {MinNumber} and {MaxNumber}");
 
-            if (userGuessNumber > Number)
+            if (userGuessNumber > _number)
             {
                 return GuessResult.Lower;
             }
-            else if (userGuessNumber < Number)
+            else if (userGuessNumber < _number)
             {
                 return GuessResult.Higher;
             }
-            else
-            {
-                Number = -1;
-                return GuessResult.Correct;
-            }
+
+            _number = InvalidNumber;
+            return GuessResult.Correct;
         }
     }
 }
