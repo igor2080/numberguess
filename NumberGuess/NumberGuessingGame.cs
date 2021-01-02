@@ -4,31 +4,31 @@ using System.Text;
 
 namespace NumberGuess
 {
-    public class Game
+    public class NumberGuessingGame
     {
-        private const int MinNumber = 0, MaxNumber = 100;
-        const string RestartKey = "1";
-        private readonly GuessNumber _guessNumber = new GuessNumber();
+        private const int MinNumber = 1, MaxNumber = 101;
+        private const string RestartKey = "1";
+        private readonly GuessNumber _guessNumber;
 
-        public Game()
+        public NumberGuessingGame()
         {
-
+            _guessNumber = new GuessNumber(MinNumber, MaxNumber);
         }
-        public Game(GuessNumber number)
+        public NumberGuessingGame(GuessNumber number)
         {
+            if (number == null)
+            {
+                throw new ArgumentNullException(nameof(number), $"{number} cannot be null");
+            }
+
             _guessNumber = number;
-        }
-
-        public int StartNewGame()
-        {
-            return _guessNumber.GenerateNewNumber();
         }
 
         public void Play()
         {
             do
             {
-                StartNewGame();
+                _guessNumber.GenerateNewNumber();
                 GuessResult currentResult = GuessResult.None;
                 while (currentResult != GuessResult.Correct)
                 {
@@ -40,16 +40,9 @@ namespace NumberGuess
             while (PromptPlayAgain());
         }
 
-        public GuessResult MakeGuess()
+        private GuessResult MakeGuess()
         {
-            int userNumber = GetUserInput();
-
-            if (_guessNumber.IsGameStarted)
-            {
-                return _guessNumber.GetGuessResult(userNumber);
-            }
-
-            throw new InvalidOperationException("A game has not been started.");
+            return _guessNumber.GetGuessResult(GetUserInput());
         }
 
         private int GetUserInput()
@@ -73,10 +66,10 @@ namespace NumberGuess
             switch (currentResult)
             {
                 case GuessResult.Higher:
-                    Console.WriteLine("Your guess was too low.");
+                    Console.WriteLine("Your guess was too low, try guessing again.");
                     break;
                 case GuessResult.Lower:
-                    Console.WriteLine("Your guess was too high.");
+                    Console.WriteLine("Your guess was too high, try guessing again.");
                     break;
                 case GuessResult.Correct:
                     Console.WriteLine("You guessed correctly!");

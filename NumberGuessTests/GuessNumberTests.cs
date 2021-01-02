@@ -7,7 +7,7 @@ namespace NumberGuessTests
     [TestClass]
     public class GuessNumberTests
     {
-        private readonly GuessNumber guessNumber = new GuessNumber();
+        private readonly GuessNumber guessNumber = new GuessNumber(1, 1);
 
         [TestInitialize]
         public void GuessNumberInit()
@@ -18,7 +18,7 @@ namespace NumberGuessTests
         [TestMethod]
         public void GetGuessResult_Valid_Number_Guess()
         {
-            int input = 5;
+            int input = 1;
             GuessResult actualResult = guessNumber.GetGuessResult(input);
             Assert.IsFalse(actualResult == GuessResult.None);
         }
@@ -27,8 +27,23 @@ namespace NumberGuessTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetGuessResult_Invalid_Number_Guess()
         {
-            int input = 120;
-            guessNumber.GetGuessResult(input);
+            guessNumber.GetGuessResult(2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void GetGuessResult_Guess_After_Game_Finish_Exception()
+        {
+            guessNumber.GetGuessResult(1);
+            guessNumber.GetGuessResult(1);
+        }
+
+        [TestMethod]
+        public void GenerateNewNumber_Number_In_Range()
+        {
+            int expectedOutput = 1;
+            int actualOutput = guessNumber.GenerateNewNumber();
+            Assert.AreEqual(expectedOutput, actualOutput);
         }
     }
 }

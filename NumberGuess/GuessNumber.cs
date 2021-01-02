@@ -6,21 +6,26 @@ namespace NumberGuess
 {
     public class GuessNumber
     {
-        private const int MinNumber = 0, MaxNumber = 100, InvalidNumber = -1;
-        private int _number = InvalidNumber;
-        public bool IsGameStarted { get { return _number != InvalidNumber; } }
+        private readonly int _minNumber, _maxNumber;
+        private int _number = -1;
+
+        public GuessNumber(int minimum, int maximum)
+        {
+            _minNumber = minimum;
+            _maxNumber = maximum;
+        }
 
         public int GenerateNewNumber()
         {
-            return _number = new Random().Next(MinNumber, MaxNumber + 1);
+            return _number = new Random().Next(_minNumber, _maxNumber + 1);
         }
 
         public GuessResult GetGuessResult(int userGuessNumber)
         {
-            if (_number == InvalidNumber)
+            if (_number == -1)
                 throw new InvalidOperationException("A game has not been started.");
-            if (userGuessNumber < MinNumber || userGuessNumber > MaxNumber)
-                throw new ArgumentOutOfRangeException($"A number has to be between {MinNumber} and {MaxNumber}");
+            if (userGuessNumber < _minNumber || userGuessNumber > _maxNumber)
+                throw new ArgumentOutOfRangeException($"A number has to be between {_minNumber} and {_maxNumber}");
 
             if (userGuessNumber > _number)
             {
@@ -31,7 +36,7 @@ namespace NumberGuess
                 return GuessResult.Higher;
             }
 
-            _number = InvalidNumber;
+            _number = -1;
             return GuessResult.Correct;
         }
     }
