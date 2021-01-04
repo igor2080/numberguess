@@ -14,7 +14,7 @@ namespace NumberGuessTests
         private readonly NumberGuessingGame _guessGame = new NumberGuessingGame(new GuessNumber(1,1));
 
         [TestMethod]
-        public void Play_Valid_Guess()
+        public void Play_ValidGuess()
         {
             //arrange
             Console.SetIn(new StringReader("1"));

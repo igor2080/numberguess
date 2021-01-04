@@ -16,7 +16,7 @@ namespace NumberGuessTests
         }
 
         [TestMethod]
-        public void GetGuessResult_Valid_Number_Guess()
+        public void GetGuessResult_ValidNumberGuess()
         {
             //arrange
             int input = 1;
@@ -31,7 +31,7 @@ namespace NumberGuessTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void GetGuessResult_Guess_After_Game_Finish_Exception()
+        public void GetGuessResult_GuessAfterGameFinishException()
         {
             //act
             guessNumber.GetGuessResult(1);
@@ -39,7 +39,7 @@ namespace NumberGuessTests
         }
 
         [TestMethod]
-        public void GenerateNewNumber_Number_In_Range()
+        public void GenerateNewNumber_NumberInRange()
         {
             //arragne
             int expectedOutput = 1;
@@ -52,7 +52,7 @@ namespace NumberGuessTests
         }
 
         [TestMethod]
-        public void GetGuessResult_Higher_Guess_Returns_Lower()
+        public void GetGuessResult_HigherGuessReturnsLower()
         {
             //arrange
             GuessNumber testNumber = new GuessNumber(1, 101);
@@ -68,7 +68,7 @@ namespace NumberGuessTests
         }
 
         [TestMethod]
-        public void GetGuessResult_Lower_Guess_Returns_Higher()
+        public void GetGuessResult_LowerGuessReturnsHigher()
         {
             //arrange
             GuessNumber testNumber = new GuessNumber(1, 101);
