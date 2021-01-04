@@ -18,8 +18,13 @@ namespace NumberGuessTests
         [TestMethod]
         public void GetGuessResult_Valid_Number_Guess()
         {
+            //arrange
             int input = 1;
+
+            //act
             GuessResult actualResult = guessNumber.GetGuessResult(input);
+
+            //assert
             Assert.IsFalse(actualResult == GuessResult.None);
         }
 
@@ -28,6 +33,7 @@ namespace NumberGuessTests
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetGuessResult_Guess_After_Game_Finish_Exception()
         {
+            //act
             guessNumber.GetGuessResult(1);
             guessNumber.GetGuessResult(1);
         }
@@ -35,36 +41,45 @@ namespace NumberGuessTests
         [TestMethod]
         public void GenerateNewNumber_Number_In_Range()
         {
+            //arragne
             int expectedOutput = 1;
+
+            //act
             int actualOutput = guessNumber.GenerateNewNumber();
+
+            //assert
             Assert.AreEqual(expectedOutput, actualOutput);
         }
 
         [TestMethod]
         public void GetGuessResult_Higher_Guess_Returns_Lower()
         {
-            GuessNumber testNumber = new GuessNumber(1, 100000001);
+            //arrange
+            GuessNumber testNumber = new GuessNumber(1, 101);
             int randomNumber = testNumber.GenerateNewNumber();
-            while (randomNumber>= 100000000)
-            {
-                randomNumber = testNumber.GenerateNewNumber();
-            }
+            int higherGuess = new Random().Next(randomNumber, int.MaxValue);
             GuessResult expectedResult = GuessResult.Lower;
-            GuessResult actualResult= testNumber.GetGuessResult(100000000);
+
+            //act
+            GuessResult actualResult = testNumber.GetGuessResult(higherGuess);
+
+            //assert
             Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod]
         public void GetGuessResult_Lower_Guess_Returns_Higher()
         {
-            GuessNumber testNumber = new GuessNumber(1, 100000001);
+            //arrange
+            GuessNumber testNumber = new GuessNumber(1, 101);
             int randomNumber = testNumber.GenerateNewNumber();
-            while (randomNumber < 2)
-            {
-                randomNumber = testNumber.GenerateNewNumber();
-            }
+            int lowerGuess = new Random().Next(1, randomNumber);
             GuessResult expectedResult = GuessResult.Higher;
-            GuessResult actualResult = testNumber.GetGuessResult(1);
+
+            //act
+            GuessResult actualResult = testNumber.GetGuessResult(lowerGuess);
+
+            //assert
             Assert.AreEqual(expectedResult, actualResult);
         }
     }

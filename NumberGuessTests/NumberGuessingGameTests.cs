@@ -16,10 +16,15 @@ namespace NumberGuessTests
         [TestMethod]
         public void Play_Valid_Guess()
         {
+            //arrange
             Console.SetIn(new StringReader("1"));
             StringWriter output = new StringWriter();
             Console.SetOut(output);
+
+            //act
             _guessGame.Start();
+
+            //assert
             Assert.AreEqual(output.ToString().Split("\r\n")[1], "You guessed correctly!");
         }
 
