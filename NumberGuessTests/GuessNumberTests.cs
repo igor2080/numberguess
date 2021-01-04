@@ -23,12 +23,6 @@ namespace NumberGuessTests
             Assert.IsFalse(actualResult == GuessResult.None);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetGuessResult_Invalid_Number_Guess()
-        {
-            guessNumber.GetGuessResult(2);
-        }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]

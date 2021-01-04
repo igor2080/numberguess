@@ -29,9 +29,7 @@ namespace NumberGuess
         {
             if (_number == -1)
                 throw new InvalidOperationException("A game has not been started.");
-            if (userGuessNumber < _minNumber || userGuessNumber > _maxNumber)
-                throw new ArgumentOutOfRangeException($"A number has to be between {_minNumber} and {_maxNumber}");
-
+            
             if (userGuessNumber > _number)
             {
                 return GuessResult.Lower;

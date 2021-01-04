@@ -6,7 +6,7 @@ namespace NumberGuess
 {
     public class NumberGuessingGame
     {
-        private const int MinNumber = 1, MaxNumber = 101;
+        private const int MinNumber = 1, MaxNumber = 100;
         private const string RestartKey = "1";
         private readonly GuessNumber _guessNumber;
 
@@ -48,10 +48,11 @@ namespace NumberGuess
         private int GetUserInput()
         {
             int result;
-            while (!int.TryParse(Console.ReadLine(), out result) || result < MinNumber || result > MaxNumber)
+            while (!int.TryParse(Console.ReadLine(), out result))
             {
-                Console.WriteLine($"Please enter a valid number between {MinNumber} and {MaxNumber} or press ctrl+c to exit: ");
+                Console.WriteLine($"You have not entered a number, please enter a number or press ctrl+c to exit: ");
             }
+
             return result;
         }
 
