@@ -11,6 +11,11 @@ namespace NumberGuess
 
         public GuessNumber(int minimum, int maximum)
         {
+            if (minimum > maximum)
+            {
+                throw new ArgumentException("Minimum cannot be higher than maximum.");
+            }
+
             _minNumber = minimum;
             _maxNumber = maximum;
         }
@@ -20,7 +25,7 @@ namespace NumberGuess
             return _number = new Random().Next(_minNumber, _maxNumber + 1);
         }
 
-        public GuessResult GetGuessResult(int userGuessNumber)
+        public virtual GuessResult GetGuessResult(int userGuessNumber)
         {
             if (_number == -1)
                 throw new InvalidOperationException("A game has not been started.");

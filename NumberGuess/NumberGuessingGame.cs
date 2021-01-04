@@ -16,28 +16,28 @@ namespace NumberGuess
         }
         public NumberGuessingGame(GuessNumber number)
         {
-            if (number == null)
-            {
-                throw new ArgumentNullException(nameof(number), $"{number} cannot be null");
-            }
-
-            _guessNumber = number;
+            _guessNumber = number ?? throw new ArgumentNullException(nameof(number), $"{number} cannot be null");
         }
 
-        public void Play()
+        public void Start()
         {
             do
             {
                 _guessNumber.GenerateNewNumber();
-                GuessResult currentResult = GuessResult.None;
-                while (currentResult != GuessResult.Correct)
-                {
-                    Console.WriteLine($"Please enter a number between {MinNumber} and {MaxNumber}: ");
-                    currentResult = MakeGuess();
-                    PrintResponse(currentResult);
-                }
+                PlayGame();
             }
             while (PromptPlayAgain());
+        }
+
+        private void PlayGame()
+        {
+            GuessResult currentResult = GuessResult.None;
+            while (currentResult != GuessResult.Correct)
+            {
+                Console.WriteLine($"Please enter a number between {MinNumber} and {MaxNumber}: ");
+                currentResult = MakeGuess();
+                PrintResponse(currentResult);
+            }
         }
 
         private GuessResult MakeGuess()

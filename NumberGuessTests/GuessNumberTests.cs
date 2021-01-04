@@ -45,5 +45,33 @@ namespace NumberGuessTests
             int actualOutput = guessNumber.GenerateNewNumber();
             Assert.AreEqual(expectedOutput, actualOutput);
         }
+
+        [TestMethod]
+        public void GetGuessResult_Higher_Guess_Returns_Lower()
+        {
+            GuessNumber testNumber = new GuessNumber(1, 100000001);
+            int randomNumber = testNumber.GenerateNewNumber();
+            while (randomNumber>= 100000000)
+            {
+                randomNumber = testNumber.GenerateNewNumber();
+            }
+            GuessResult expectedResult = GuessResult.Lower;
+            GuessResult actualResult= testNumber.GetGuessResult(100000000);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void GetGuessResult_Lower_Guess_Returns_Higher()
+        {
+            GuessNumber testNumber = new GuessNumber(1, 100000001);
+            int randomNumber = testNumber.GenerateNewNumber();
+            while (randomNumber < 2)
+            {
+                randomNumber = testNumber.GenerateNewNumber();
+            }
+            GuessResult expectedResult = GuessResult.Higher;
+            GuessResult actualResult = testNumber.GetGuessResult(1);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }

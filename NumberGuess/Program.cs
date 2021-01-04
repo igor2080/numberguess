@@ -6,8 +6,8 @@ namespace NumberGuess
     {        
         static void Main(string[] args)
         {
-            NumberGuessingGame _guessGame = new NumberGuessingGame();
-            _guessGame.Play();
+            NumberGuessingGame guessGame = new NumberGuessingGame();
+            guessGame.Start();
         }
     }
 }
